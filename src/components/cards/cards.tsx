@@ -5,13 +5,15 @@ type CardProps = {
   offer: Offer;
   onMouseEnter?: (id: string) => void;
   onMouseLeave?: () => void;
+  isNear?: boolean; // Флаг для блока неподалёку
 };
 
-export default function Card({ offer, onMouseEnter, onMouseLeave }: CardProps): JSX.Element {
+export default function Card({ offer, onMouseEnter, onMouseLeave, isNear = false }: CardProps): JSX.Element {
   const { id, title, type, price, isFavorite, isPremium, rating, previewImage } = offer;
+
   return (
     <article
-      className="cities__card place-card"
+      className={`${isNear ? 'near-places__card' : 'cities__card'} place-card`}
       onMouseEnter={() => onMouseEnter?.(id)}
       onMouseLeave={() => onMouseLeave?.()}
     >
@@ -20,9 +22,9 @@ export default function Card({ offer, onMouseEnter, onMouseLeave }: CardProps): 
           <span>Premium</span>
         </div>
       )}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${isNear ? 'near-places__image-wrapper' : 'cities__image-wrapper'} place-card__image-wrapper`}>
         <Link to={`/offer/${id}`}>
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
+          <img className="place-card__image" src={previewImage} width={isNear ? '260' : '260'} height={isNear ? '200' : '200'} alt="Place image" />
         </Link>
       </div>
       <div className="place-card__info">
